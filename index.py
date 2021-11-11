@@ -24,7 +24,7 @@ def decryptionWithVigenere(cipherText,key):
 
 def findingKeyWithVigenere(plainText,cipherText):
     key = []
-    #Bu kısım yapılacak
+    # Bu kisim yapilacak
     return 0 
 
 def main():
