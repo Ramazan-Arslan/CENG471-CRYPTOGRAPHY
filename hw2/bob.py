@@ -1,9 +1,8 @@
 #https://cryptobook.nakov.com/key-exchange/diffie-hellman-key-exchange
 #Ramazan Arslan & Berk Önal
-
 p = 23
 g = 5
-a = 4 # random number of Alice
+b = 3 # random number of Bob
 
 def isPrime(p):
     for i in range(2, int(p/2)+1):
@@ -29,16 +28,18 @@ def isPrimitiveNumber(g,p):
         print("g = " ,g, "OK ( This is a primitive root of modulo",p,")")
 
 
+def secretKeyBob(A,b,p):
+    return A**b % p 
+
 def secretKeyAlice(B,a,p):
     return B**a % p 
     
 isPrime(p)
 isPrimitiveNumber(p,g)
-A = (g**a) % p # This can be sent to Bob
-B = 10 # This is coming from Bob
+B = (g**b) % p # This can be sent to Alice
+A = 4 # This is coming from Alice
 print("Alice and Bob publicly agree on the values of p and g. \nHowever, it is advised to use any pair of p and g only once.")
-print("a = ",a," (This must be kept secret.)")
-print("A = ",A," (This can be sent to Bob.)")
+print("b = ",b," (This must be kept secret.)")
+print("B = ",B," (This can be sent to Alice.)")
 #Finalization of the key exchange
-print("s = ",secretKeyAlice(B,a,p),"\n(This must be kept secret. However, Bob should be able to calculate this as well.)")
-
+print("s = ",secretKeyBob(A,b,p),"\n(This must be kept secret. However, Alice should be able to calculate this as well.)")
