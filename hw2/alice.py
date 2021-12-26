@@ -1,15 +1,15 @@
 #https://cryptobook.nakov.com/key-exchange/diffie-hellman-key-exchange
 #Ramazan Arslan & Berk Önal
-from Crypto.Cipher import DES
-from Crypto.Util.Padding import pad,unpad
+from Crypto.Cipher import DES # pip install Crypto.Cipher
+from Crypto.Util.Padding import pad,unpad # pip install Crypto.Util.Padding
 import sys
 
-if(sys.argv[1] == 'dhke'):
+if(sys.argv[1] == 'dhke'): # for dhke encryption 
     p = int(sys.argv[3])
     g = int(sys.argv[5])
     a = 4 # random number of Alice
 
-    def isPrime(p):
+    def isPrime(p): # checks p is prime or not.
         for i in range(2, int(p/2)+1):
             if (p % i) == 0:
                 print("p =", p ," ( This is not a prime number )")
@@ -20,7 +20,7 @@ if(sys.argv[1] == 'dhke'):
             print("p = ", p , "OK ( This is a prime number )")
 
 
-    def isPrimitiveNumber(g,p):
+    def isPrimitiveNumber(g,p):  # checks g is a primitive root of p or not.
         results = []
         for i in range(1,int(p)):
             check = pow(int(g), i) % int(p)
@@ -38,7 +38,7 @@ if(sys.argv[1] == 'dhke'):
             quit();
 
 
-    def secretKeyAlice(B,a,p):
+    def secretKeyAlice(B,a,p): # calculates secret key number
         return B**a % p 
         
     isPrime(p)
@@ -52,11 +52,11 @@ if(sys.argv[1] == 'dhke'):
     print("s = ",secretKeyAlice(B,a,p),"\n(This must be kept secret. However, Bob should be able to calculate this as well.)")
 
 
-else:
-    def decimalToBinary(num):
+else: # for des encryption
+    def decimalToBinary(num): # it converts decimal number to binary.
         return "{0:b}".format(int(num))
 
-    def leadingZero(binaryKey):
+    def leadingZero(binaryKey):  # adds leading zeros when the binary number is less than 8 digits.
         if(len(binaryKey) < 8):
             key = ''
             count = 8-len(binaryKey)
@@ -65,13 +65,13 @@ else:
         key += binaryKey 
         return key
 
-    def desEncryption(message,key):
+    def desEncryption(message,key): # des encryption with ecb mode
         cipher = DES.new(key, DES.MODE_ECB)
         plaintext = message.encode()
         msg = cipher.encrypt(pad(plaintext, 64))
         return msg
 
-    def desDecryption(cipherText,key):
+    def desDecryption(cipherText,key): # des decryption with ecb mode
         decipher = DES.new(key, DES.MODE_ECB)
         de_msg = decipher.decrypt(cipherText)
         return unpad(de_msg, 64).decode()
